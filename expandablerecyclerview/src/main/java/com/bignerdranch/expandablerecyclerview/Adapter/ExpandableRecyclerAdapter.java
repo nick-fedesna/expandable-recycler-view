@@ -345,9 +345,11 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
             List<?> childObjectList = ((ParentObject) parentWrapper.getParentObject()).getChildObjectList();
             if (childObjectList != null) {
                 for (int i = 0; i < childObjectList.size(); i++) {
-                    mItemList.add(position + i + 1, childObjectList.get(i));
-                    mExpandableRecyclerAdapterHelper.getHelperItemList().add(position + i + 1, childObjectList.get(i));
-                    notifyItemInserted(position + i + 1);
+                    int newPos = position + i + 1;
+                    Object child = childObjectList.get(i);
+                    mExpandableRecyclerAdapterHelper.addItem(child, newPos);
+                    mItemList.add(newPos, child);
+                    notifyItemInserted(newPos);
                 }
             }
         }
