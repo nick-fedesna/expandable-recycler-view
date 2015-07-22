@@ -23,12 +23,12 @@ public interface ParentObject {
      *
      * @return this Parent's child object
      */
-    List<Object> getChildObjectList();
+    List<? extends Object> getChildObjectList();
 
     /**
      * Setter method for this parent's child object list. Multiple can be added or none
      *
      * @param childObjectList
      */
-    void setChildObjectList(List<Object> childObjectList);
+    void setChildObjectList(List<? extends Object> childObjectList);
 }
