@@ -1,5 +1,7 @@
 package com.bignerdranch.expandablerecyclerview.ClickListeners;
 
+import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
+
 /**
  * Interface callback allowing objects to register themselves as expand/collapse listeners to be
  * notified of change events.
@@ -13,10 +15,10 @@ public interface ExpandCollapseListener {
     /**
      * Method called when an item in the ExpandableRecycleView is expanded
      */
-    void onRecyclerViewItemExpanded(int position);
+    void onRecyclerViewItemExpanded(ParentObject parent, int position);
 
     /**
      * Method called when an item in the ExpandableRecyclerView is collapsed
      */
-    void onRecyclerViewItemCollapsed(int position);
+    void onRecyclerViewItemCollapsed(ParentObject parent, int position);
 }

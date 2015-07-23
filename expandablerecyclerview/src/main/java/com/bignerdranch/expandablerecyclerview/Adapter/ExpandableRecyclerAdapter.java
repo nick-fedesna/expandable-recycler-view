@@ -340,11 +340,6 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
         if (parentWrapper.isExpanded()) {
             parentWrapper.setExpanded(false);
 
-            if (mExpandCollapseListener != null) {
-                int expandedCountBeforePosition = getExpandedItemCount(position);
-                mExpandCollapseListener.onRecyclerViewItemCollapsed(position - expandedCountBeforePosition);
-            }
-
             mStableIdMap.put(parentWrapper.getStableId(), false);
             List<?> childObjectList = ((ParentObject) parentWrapper.getParentObject()).getChildObjectList();
             if (childObjectList != null) {
@@ -367,13 +362,12 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
                     notifyItemRemoved(childPos);
                 }
             }
-        } else {
-            parentWrapper.setExpanded(true);
-
             if (mExpandCollapseListener != null) {
                 int expandedCountBeforePosition = getExpandedItemCount(position);
-                mExpandCollapseListener.onRecyclerViewItemExpanded(position - expandedCountBeforePosition);
+                mExpandCollapseListener.onRecyclerViewItemCollapsed(parentObject, position - expandedCountBeforePosition);
             }
+        } else {
+            parentWrapper.setExpanded(true);
 
             mStableIdMap.put(parentWrapper.getStableId(), true);
             List<?> childObjectList = ((ParentObject) parentWrapper.getParentObject()).getChildObjectList();
@@ -385,6 +379,10 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
                     mItemList.add(newPos, child);
                     notifyItemInserted(newPos);
                 }
+            }
+            if (mExpandCollapseListener != null) {
+                int expandedCountBeforePosition = getExpandedItemCount(position);
+                mExpandCollapseListener.onRecyclerViewItemExpanded(parentObject, position - expandedCountBeforePosition);
             }
         }
     }
