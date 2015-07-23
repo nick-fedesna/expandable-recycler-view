@@ -5,16 +5,14 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import java.util.*;
+
 import com.bignerdranch.expandablerecyclerview.ClickListeners.ExpandCollapseListener;
 import com.bignerdranch.expandablerecyclerview.ClickListeners.ParentItemClickListener;
 import com.bignerdranch.expandablerecyclerview.Model.ParentObject;
 import com.bignerdranch.expandablerecyclerview.Model.ParentWrapper;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * The Base class for an Expandable RecyclerView Adapter
@@ -303,6 +301,16 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
         mExpandCollapseListener = expandCollapseListener;
     }
 
+    public void collapseParent(ParentObject parentObject, int position) {
+        ParentWrapper parentWrapper = (ParentWrapper) mExpandableRecyclerAdapterHelper.getHelperItemAtPosition(position);
+        if (parentWrapper == null) {
+            return;
+        }
+        if (parentWrapper.isExpanded()) {
+            expandParent(parentObject, position);
+        }
+    }
+
     /**
      * Method called to expand a ParentObject when clicked. This handles saving state, adding the
      * corresponding child objects to the list (the recyclerview list) and updating that list.
@@ -328,9 +336,22 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
             List<?> childObjectList = ((ParentObject) parentWrapper.getParentObject()).getChildObjectList();
             if (childObjectList != null) {
                 for (int i = childObjectList.size() - 1; i >= 0; i--) {
-                    mItemList.remove(position + i + 1);
-                    mExpandableRecyclerAdapterHelper.getHelperItemList().remove(position + i + 1);
-                    notifyItemRemoved(position + i + 1);
+                    Object parentChild = childObjectList.get(i);
+                    if (parentChild instanceof ParentObject) {
+                        for (int j = mItemList.size() - 1; j >= 0; j--) {
+                            Object item = mItemList.get(j);
+                            if (item == parentChild) {
+                                collapseParent((ParentObject) parentChild, j);
+                            }
+                        }
+                    }
+                }
+                List<Object> helperList = mExpandableRecyclerAdapterHelper.getHelperItemList();
+                for (int i = childObjectList.size() - 1; i >= 0; i--) {
+                    int childPos = position + i + 1;
+                    mItemList.remove(childPos);
+                    helperList.remove(childPos);
+                    notifyItemRemoved(childPos);
                 }
             }
         } else {
