@@ -30,7 +30,7 @@ public class MyExpandableAdapter extends ExpandableRecyclerAdapter<CustomParentV
      * @param parentItemList the list of parent items to be displayed in the RecyclerView
      */
     public MyExpandableAdapter(Context context, List<ParentObject> parentItemList) {
-        super(context, parentItemList);
+        super(parentItemList);
         mInflater = LayoutInflater.from(context);
     }
 
@@ -45,7 +45,7 @@ public class MyExpandableAdapter extends ExpandableRecyclerAdapter<CustomParentV
      */
     public MyExpandableAdapter(Context context, List<ParentObject> parentItemList,
                                int customClickableViewId) {
-        super(context, parentItemList, customClickableViewId);
+        super(parentItemList, customClickableViewId);
         mInflater = LayoutInflater.from(context);
     }
 
@@ -61,7 +61,7 @@ public class MyExpandableAdapter extends ExpandableRecyclerAdapter<CustomParentV
      */
     public MyExpandableAdapter(Context context, List<ParentObject> parentItemList,
                                int customClickableViewId, long animationDuration) {
-        super(context, parentItemList, customClickableViewId, animationDuration);
+        super(parentItemList, customClickableViewId, animationDuration);
         mInflater = LayoutInflater.from(context);
     }
 

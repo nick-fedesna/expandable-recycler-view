@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class CustomParentObject implements ParentObject {
     // A List<Object> or subclass of List must be added for the object to work correctly
-    private List<Object> mChildObjectList;
+    private List<?> mChildObjectList;
 
     private String mParentText;
     private int mParentNumber;
@@ -47,7 +47,7 @@ public class CustomParentObject implements ParentObject {
      * @return list of all children associated with this specific parent object
      */
     @Override
-    public List<Object> getChildObjectList() {
+    public List<?> getChildObjectList() {
         return mChildObjectList;
     }
 
@@ -57,7 +57,7 @@ public class CustomParentObject implements ParentObject {
      * @param childObjectList the list of all children associated with this parent object
      */
     @Override
-    public void setChildObjectList(List<Object> childObjectList) {
+    public void setChildObjectList(List<?> childObjectList) {
         mChildObjectList = childObjectList;
     }
 }

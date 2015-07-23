@@ -28,7 +28,7 @@ import butterknife.OnItemSelected;
  * @version 1.0
  * @since 5/27/2015
  */
-public class VerticalLinearRecyclerViewSample extends AppCompatActivity implements ExpandCollapseListener{
+public class VerticalLinearRecyclerViewSample extends AppCompatActivity implements ExpandCollapseListener {
     private final String TAG = this.getClass().getSimpleName();
     private static final String CUSTOM_EXPAND_BUTTON_CHECKED = "CUSTOM_EXPAND_BUTTON_CHECKED";
     private static final String CUSTOM_ANIMATION_DURATION_POSITION = "CUSTOM_ANIMATION_DURATION_POSITION";
@@ -216,12 +216,12 @@ public class VerticalLinearRecyclerViewSample extends AppCompatActivity implemen
     }
 
     @Override
-    public void onRecyclerViewItemExpanded(int position) {
+    public void onRecyclerViewItemExpanded(ParentObject parent, int position) {
         Toast.makeText(this, "Item Expanded " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onRecyclerViewItemCollapsed(int position) {
+    public void onRecyclerViewItemCollapsed(ParentObject parent, int position) {
         Toast.makeText(this, "Item Collapsed " + position, Toast.LENGTH_SHORT).show();
     }
 }
