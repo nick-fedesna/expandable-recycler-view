@@ -1,6 +1,5 @@
 package com.bignerdranch.expandablerecyclerview.Adapter;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
     public static final long DEFAULT_ROTATE_DURATION_MS = 200l;
     public static final long CUSTOM_ANIMATION_DURATION_NOT_SET = -1l;
 
-    protected Context mContext;
     protected List<Object> mItemList;
     protected List<ParentObject> mParentItemList;
     private HashMap<Long, Boolean> mStableIdMap;
@@ -45,19 +43,22 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
     private long mAnimationDuration = CUSTOM_ANIMATION_DURATION_NOT_SET;
 
     /**
+     * Public default constructor for the base ExpandableRecyclerView. It is expected you will setup
+     * the list after construction by calling {@link #setupList(List)}. Also, if you do not call
+     *  {@link #setupAnimation(int, long)} a click of the parent item will trigger the expansion.
+     */
+    public ExpandableRecyclerAdapter() {
+    }
+
+    /**
      * Public constructor for the base ExpandableRecyclerView. This constructor takes in no
      * extra parameters for custom clickable views and animation durations. This means a click of
      * the parent item will trigger the expansion.
      *
-     * @param context
      * @param parentItemList
      */
-    public ExpandableRecyclerAdapter(Context context, List<ParentObject> parentItemList) {
-        mContext = context;
-        mParentItemList = parentItemList;
-        mItemList = generateObjectList(parentItemList);
-        mExpandableRecyclerAdapterHelper = new ExpandableRecyclerAdapterHelper(mItemList);
-        mStableIdMap = generateStableIdMapFromList(mExpandableRecyclerAdapterHelper.getHelperItemList());
+    public ExpandableRecyclerAdapter(List<ParentObject> parentItemList) {
+        setupList(parentItemList);
     }
 
     /**
@@ -65,18 +66,13 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
      * id for a custom clickable view that will trigger the expansion or collapsing of the child.
      * By default, a parent item click is the trigger for the expanding/collapsing.
      *
-     * @param context
      * @param parentItemList
      * @param customParentAnimationViewId
      */
-    public ExpandableRecyclerAdapter(Context context, List<ParentObject> parentItemList,
+    public ExpandableRecyclerAdapter(List<ParentObject> parentItemList,
                                      int customParentAnimationViewId) {
-        mContext = context;
-        mParentItemList = parentItemList;
-        mItemList = generateObjectList(parentItemList);
-        mExpandableRecyclerAdapterHelper = new ExpandableRecyclerAdapterHelper(mItemList);
-        mStableIdMap = generateStableIdMapFromList(mExpandableRecyclerAdapterHelper.getHelperItemList());
-        mCustomParentAnimationViewId = customParentAnimationViewId;
+        setupList(parentItemList);
+        setupAnimation(customParentAnimationViewId, CUSTOM_ANIMATION_DURATION_NOT_SET);
     }
 
     /**
@@ -84,18 +80,35 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
      * both an id for a custom clickable view that will trigger the expansion or collapsing of the
      * child along with a long for a custom duration in MS for the rotation animation.
      *
-     * @param context
      * @param parentItemList
      * @param customParentAnimationViewId
      * @param animationDuration
      */
-    public ExpandableRecyclerAdapter(Context context, List<ParentObject> parentItemList,
+    public ExpandableRecyclerAdapter(List<ParentObject> parentItemList,
                                      int customParentAnimationViewId, long animationDuration) {
-        mContext = context;
+        setupList(parentItemList);
+        setupAnimation(customParentAnimationViewId, animationDuration);
+    }
+
+    /**
+     * Allows for setting up the list after construction of this adapter.
+     *
+     * @param parentItemList
+     */
+    public void setupList(List<ParentObject> parentItemList) {
         mParentItemList = parentItemList;
         mItemList = generateObjectList(parentItemList);
         mExpandableRecyclerAdapterHelper = new ExpandableRecyclerAdapterHelper(mItemList);
         mStableIdMap = generateStableIdMapFromList(mExpandableRecyclerAdapterHelper.getHelperItemList());
+    }
+
+    /**
+     * Allows for setting the animation view and duration after construction of this adapter.
+     *
+     * @param customParentAnimationViewId
+     * @param animationDuration
+     */
+    public void setupAnimation(int customParentAnimationViewId, long animationDuration) {
         mCustomParentAnimationViewId = customParentAnimationViewId;
         mAnimationDuration = animationDuration;
     }
