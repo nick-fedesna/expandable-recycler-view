@@ -34,13 +34,11 @@ public class ExpandableRecyclerAdapterHelper {
         }
     }
 
-    public List<Object> generateHelperItemList(List<Object> itemList) {
-        ArrayList<Object> parentWrapperList = new ArrayList<>();
+    public void generateHelperItemList(List<Object> itemList) {
         for (int i = 0; i < itemList.size(); i++) {
             addItem(itemList.get(i), sCurrentId);
             sCurrentId++;
         }
-        return parentWrapperList;
     }
 
     public void addItem(Object item, int position) {
