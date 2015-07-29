@@ -314,13 +314,19 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
         mExpandCollapseListener = expandCollapseListener;
     }
 
+    /**
+     * Convenience method to collapse a ParentObject if it is expanded.
+     *
+     * @param parentObject
+     * @param position
+     */
     public void collapseParent(ParentObject parentObject, int position) {
-        ParentWrapper parentWrapper = (ParentWrapper) mExpandableRecyclerAdapterHelper.getHelperItemAtPosition(position);
-        if (parentWrapper == null) {
-            return;
-        }
-        if (parentWrapper.isExpanded()) {
-            expandParent(parentObject, position);
+        Object helperItem = mExpandableRecyclerAdapterHelper.getHelperItemAtPosition(position);
+        if (helperItem instanceof ParentWrapper) {
+            ParentWrapper parentWrapper = (ParentWrapper) helperItem;
+            if (parentWrapper.getParentObject().equals(parentObject) && parentWrapper.isExpanded()) {
+                expandParent(parentObject, position);
+            }
         }
     }
 
