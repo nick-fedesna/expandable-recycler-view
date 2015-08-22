@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Expandable RecyclerView Sample</string>
     <string name="vertical_linear_recycler_title">Vertical Linear Expansion Sample</string>
+    <string name="nested_linear_recycler_title">Nested Expansion Sample</string>
 
     <string name="coming_soon">Feature coming soon</string>
 
@@ -8,10 +9,13 @@
     <string name="vertical_linear_sample_button">Vertical Linear Sample</string>
     <string name="horizontal_linear_sample_button">Horizontal Linear Sample</string>
     <string name="grid_sample_button">Grid Layout Sample</string>
+    <string name="nesting_sample_button">Nesting Layout Sample</string>
     <string name="activity_main_header">Expanding RecyclerView</string>
 
     <!-- Vertical sample activity -->
     <string name="vertical_sample_toolbar_checkbox">Custom Expand Button</string>
     <string name="vertical_sample_toolbar_animation">Animation Speed</string>
 
+    <!-- Nested sample activity -->
+    <string name="nested_sample_toolbar_checkbox">Single Expanded Parent (of same depth)</string>
 </resources>

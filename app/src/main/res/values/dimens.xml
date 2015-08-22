@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="large_text_size">36sp</dimen>
+    <dimen name="parent_text_size">24sp</dimen>
+    <dimen name="nested_parent_text_size">18sp</dimen>
     <dimen name="regular_margin">8dp</dimen>
 </resources>
