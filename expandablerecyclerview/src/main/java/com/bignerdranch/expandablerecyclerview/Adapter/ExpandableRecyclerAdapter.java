@@ -89,7 +89,8 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
      * @param animationDuration
      */
     public ExpandableRecyclerAdapter(List<ParentObject> parentItemList,
-                                     int customParentAnimationViewId, long animationDuration) {
+                                     int customParentAnimationViewId,
+                                     long animationDuration) {
         setupList(parentItemList);
         setupAnimation(customParentAnimationViewId, animationDuration);
     }
@@ -183,8 +184,7 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
                 }
             }
 
-            parentViewHolder.setExpanded(
-                    ((ParentWrapper) mHelper.getHelperItemAtPosition(position)).isExpanded());
+            parentViewHolder.setExpanded(((ParentWrapper) mHelper.getHelperItemAtPosition(position)).isExpanded());
             onBindParentViewHolder(parentViewHolder, position, mItemList.get(position));
         } else if (mItemList.get(position) == null) {
             throw new IllegalStateException("Incorrect ViewHolder found");
@@ -483,20 +483,26 @@ public abstract class ExpandableRecyclerAdapter<PVH extends ParentViewHolder, CV
         }
 
         ArrayList<Integer> expanded = savedInstanceStateBundle.getIntegerArrayList(EXPANDED_POSITION_LIST);
+        if (expanded == null) {
+            return;
+        }
+
         int i = 0;
         while (i < mHelper.getHelperItemList().size()) {
-            Object item = mHelper.getHelperItemAtPosition(i);
-            if (item instanceof ParentWrapper && expanded.contains(i)) {
-                ParentWrapper parentWrapper = (ParentWrapper) item;
-                if (!parentWrapper.isExpanded()) {
-                    parentWrapper.setExpanded(true);
-                    List<?> childObjectList = parentWrapper.getParentObject().getChildObjectList();
-                    if (childObjectList != null) {
-                        for (int j = 0; j < childObjectList.size(); j++) {
-                            Object child = childObjectList.get(j);
-                            int nextPos = i + j + 1;
-                            mItemList.add(nextPos, child);
-                            mHelper.addItem(nextPos, child);
+            if (expanded.contains(i)) {
+                Object item = mHelper.getHelperItemAtPosition(i);
+                if (item instanceof ParentWrapper) {
+                    ParentWrapper parentWrapper = (ParentWrapper) item;
+                    if (!parentWrapper.isExpanded()) {
+                        parentWrapper.setExpanded(true);
+                        List<?> childObjectList = parentWrapper.getParentObject().getChildObjectList();
+                        if (childObjectList != null) {
+                            for (int j = 0; j < childObjectList.size(); j++) {
+                                Object child = childObjectList.get(j);
+                                int nextPos = i + j + 1;
+                                mItemList.add(nextPos, child);
+                                mHelper.addItem(nextPos, child);
+                            }
                         }
                     }
                 }
