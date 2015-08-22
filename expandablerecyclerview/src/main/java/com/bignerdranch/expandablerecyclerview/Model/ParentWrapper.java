@@ -4,21 +4,24 @@ package com.bignerdranch.expandablerecyclerview.Model;
  * Created by Ryan Brooks on 6/11/15.
  */
 public class ParentWrapper {
-    private boolean mIsExpanded;
-    private long mStableId;
-    private Object mParentObject;
 
-    public ParentWrapper(Object parentObject, int stableId) {
+    private ParentObject mParentObject;
+    private boolean      mIsExpanded;
+
+    @Deprecated
+    public ParentWrapper(ParentObject parentObject, int stableId) {
         mParentObject = parentObject;
-        mStableId = stableId;
-        mIsExpanded = false;
     }
 
-    public Object getParentObject() {
+    public ParentWrapper(ParentObject parentObject) {
+        mParentObject = parentObject;
+    }
+
+    public ParentObject getParentObject() {
         return mParentObject;
     }
 
-    public void setParentObject(Object parentObject) {
+    public void setParentObject(ParentObject parentObject) {
         mParentObject = parentObject;
     }
 
@@ -30,11 +33,4 @@ public class ParentWrapper {
         mIsExpanded = isExpanded;
     }
 
-    public long getStableId() {
-        return mStableId;
-    }
-
-    public void setStableId(long stableId) {
-        mStableId = stableId;
-    }
 }

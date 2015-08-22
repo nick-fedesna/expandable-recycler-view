@@ -10,15 +10,12 @@ import java.util.List;
  * Created by Ryan Brooks on 6/11/15.
  */
 public class ExpandableRecyclerAdapterHelper {
-    private static final String TAG = ExpandableRecyclerAdapterHelper.class.getSimpleName();
-    private static final int INITIAL_STABLE_ID = 0;
 
     private final List<Object> mHelperItemList = new ArrayList<>();
 
     private static int sCurrentId;
 
     public ExpandableRecyclerAdapterHelper(List<Object> itemList) {
-        sCurrentId = INITIAL_STABLE_ID;
         generateHelperItemList(itemList);
     }
 
@@ -34,16 +31,15 @@ public class ExpandableRecyclerAdapterHelper {
         }
     }
 
-    public void generateHelperItemList(List<Object> itemList) {
+    private void generateHelperItemList(List<Object> itemList) {
         for (int i = 0; i < itemList.size(); i++) {
-            addItem(itemList.get(i), sCurrentId);
-            sCurrentId++;
+            addItem(i, itemList.get(i));
         }
     }
 
-    public void addItem(Object item, int position) {
+    public void addItem(int position, Object item) {
         if (item instanceof ParentObject) {
-            ParentWrapper parentWrapper = new ParentWrapper(item, position);
+            ParentWrapper parentWrapper = new ParentWrapper((ParentObject) item);
             mHelperItemList.add(position, parentWrapper);
         } else {
             mHelperItemList.add(position, item);
